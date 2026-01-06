@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Cpu, Beaker, User, Zap, Briefcase, Gamepad2, FileText, ChevronUp, Send, Github, Linkedin } from 'lucide-react';
 import SectionHeader from '../components/SectionHeader';
@@ -10,25 +10,6 @@ const Home: React.FC = () => {
         document.title = "GaboTTo | Pharma AI & QA Specialist";
     }, []);
 
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-    });
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-    };
-
-    const handleSendMessage = (e: React.FormEvent) => {
-        e.preventDefault();
-        const subject = encodeURIComponent(formData.subject || "Consulta desde Portfolio Web");
-        const body = encodeURIComponent(`Nombre: ${formData.name}\nEmail: ${formData.email}\n\nMensaje:\n${formData.message}`);
-        window.location.href = `mailto:ferrettogabriel@live.com?subject=${subject}&body=${body}`;
-    };
-
     return (
         <>
             {/* Hero Section */}
@@ -36,7 +17,6 @@ const Home: React.FC = () => {
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[100px] animate-pulse"></div>
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] border border-primary/20 rounded-full animate-[spin_10s_linear_infinite]"></div>
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] border border-dashed border-primary/10 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
-
                 <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
                     <div className="inline-block mb-6 px-4 py-1 rounded-full border border-primary/30 bg-primary/5 backdrop-blur-sm">
                         <span className="text-primary text-sm font-display tracking-widest uppercase flex items-center gap-2">
@@ -70,20 +50,17 @@ const Home: React.FC = () => {
             {/* About Preview */}
             <section className="py-24 relative" id="about">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                    <SectionHeader 
-                        tag="About Me" 
-                        title="Apasionado por" 
-                        highlight="las nuevas tecnologías" 
+                    <SectionHeader
+                        tag="About Me"
+                        title="Apasionado por"
+                        highlight="las nuevas tecnologías"
                     />
-
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                         <div className="lg:col-span-5 relative">
-                            {/* Removed aspect-square to allow vertical growth with larger image */}
                             <div className="relative w-full max-w-md mx-auto holographic-card rounded-2xl flex flex-col items-center justify-center p-8 py-12 group dark:!bg-[#11212D]">
                                 <div className="absolute top-4 right-4 w-16 h-16 border-t-2 border-r-2 border-primary/30 rounded-tr-xl"></div>
                                 <div className="absolute bottom-4 left-4 w-8 h-8 rounded-full border border-primary/20"></div>
                                 <div className="text-center z-10 w-full">
-                                    {/* Increased size from w-32 h-32 to w-72 h-72 sm:w-96 sm:h-96 (Approx x3) */}
                                     <div className="w-72 h-72 sm:w-80 sm:h-80 mx-auto rounded-full border-4 border-primary shadow-neon overflow-hidden mb-8 transition-transform duration-500 hover:scale-105">
                                         <img src="https://i.postimg.cc/9MMkgj4f/Gabi-F2.jpg" alt="GaboTTo" className="w-full h-full object-cover" />
                                     </div>
@@ -93,7 +70,6 @@ const Home: React.FC = () => {
                                 <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-secondary/10 opacity-50 blur-xl -z-10 rounded-2xl"></div>
                             </div>
                         </div>
-
                         <div className="lg:col-span-7 space-y-6">
                             <div className="holographic-card p-8 rounded-xl border-l-4 border-l-primary shadow-xl dark:!bg-[#11212D]">
                                 <h3 className="text-2xl font-display font-bold text-gray-900 dark:text-white mb-4 transition-colors">Creando experiencias digitales</h3>
@@ -104,7 +80,6 @@ const Home: React.FC = () => {
                                     Me especializo en la creación de aplicaciones web modernas que combinan un diseño amigable con una funcionalidad potente.
                                 </p>
                             </div>
-
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
                                 <div className="bg-white dark:!bg-[#11212D] border border-gray-200 dark:border-white/10 p-4 rounded-lg hover:border-primary/50 transition-colors group shadow-sm dark:shadow-none">
                                     <Beaker className="text-primary w-8 h-8 mb-2 group-hover:scale-110 transition-transform origin-left" />
@@ -129,9 +104,7 @@ const Home: React.FC = () => {
                             </div>
                         </div>
                     </div>
-
                     <div className="mt-24 grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-                        {/* Professional Card */}
                         <div className="holographic-card p-8 rounded-2xl relative overflow-hidden group hover:border-primary/50 transition-all duration-300 dark:!bg-[#11212D]">
                             <div className="absolute top-0 right-0 p-6 opacity-10 text-primary group-hover:scale-110 transition-transform rotate-12">
                                 <Briefcase size={120} />
@@ -149,8 +122,6 @@ const Home: React.FC = () => {
                                 </Link>
                             </div>
                         </div>
-
-                        {/* Personal Side Card */}
                         <div className="holographic-card p-8 rounded-2xl relative overflow-hidden group hover:border-secondary/50 transition-all duration-300 dark:!bg-[#11212D]">
                             <div className="absolute top-0 right-0 p-6 opacity-10 text-secondary group-hover:scale-110 transition-transform -rotate-12">
                                 <Gamepad2 size={120} />
@@ -172,8 +143,8 @@ const Home: React.FC = () => {
                 </div>
             </section>
 
-             {/* Portfolio Preview */}
-             <section className="py-24 bg-gray-50 dark:bg-[#050505] relative transition-colors duration-500">
+            {/* Portfolio Preview */}
+            <section className="py-24 bg-gray-50 dark:bg-[#050505] relative transition-colors duration-500">
                 <div className="absolute inset-0 bg-grid opacity-10 pointer-events-none"></div>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     <SectionHeader tag="Portfolio" title="Selected" highlight="Works" />
@@ -210,8 +181,8 @@ const Home: React.FC = () => {
                 </div>
             </section>
 
-             {/* Contact Section */}
-             <section className="py-24 relative bg-white dark:bg-[#050505] transition-colors duration-500" id="contact">
+            {/* Contact Section */}
+            <section className="py-24 relative bg-white dark:bg-[#050505] transition-colors duration-500" id="contact">
                 <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none"></div>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     <div className="text-center mb-16">
@@ -221,60 +192,57 @@ const Home: React.FC = () => {
                         </h2>
                         <p className="mt-4 text-lg text-gray-600 dark:text-gray-400 transition-colors">¿Querés que me sume a tu proyecto, empresa, o simplemente queres saludarme?</p>
                     </div>
-
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mt-12">
                         {/* Form - spans 2 cols */}
                         <div className="lg:col-span-2">
-                            <form className="space-y-6" onSubmit={handleSendMessage}>
+                            <form 
+                                action="https://api.web3forms.com/submit" 
+                                method="POST" 
+                                className="space-y-6"
+                            >
+                                {/* Access Key */}
+                                <input type="hidden" name="access_key" value="cd180ec9-8553-40cd-803b-22fc62c698ec" />
+                                
+                                {/* Anti-spam honeypot (invisible) */}
+                                <input type="checkbox" name="botcheck" className="hidden" style={{display: "none"}} />
+                                
+                                {/* Subject oculto */}
+                                <input type="hidden" name="subject" value="Nuevo mensaje desde GaboTTo Portfolio" />
+
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
                                         <label className="block text-xs font-display text-gray-500 dark:text-gray-500 mb-2 uppercase tracking-wider">Your Name</label>
-                                        <input 
-                                            type="text" 
+                                        <input
+                                            type="text"
                                             name="name"
-                                            value={formData.name}
-                                            onChange={handleInputChange}
-                                            placeholder="Homero Simpsons" 
-                                            className="w-full bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded px-4 py-3 text-gray-900 dark:text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors" 
+                                            placeholder="Homero Simpsons"
+                                            className="w-full bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded px-4 py-3 text-gray-900 dark:text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
                                             required
                                         />
                                     </div>
                                     <div>
                                         <label className="block text-xs font-display text-gray-500 dark:text-gray-500 mb-2 uppercase tracking-wider">Email Address</label>
-                                        <input 
-                                            type="email" 
+                                        <input
+                                            type="email"
                                             name="email"
-                                            value={formData.email}
-                                            onChange={handleInputChange}
-                                            placeholder="homero@ejemplo.com" 
-                                            className="w-full bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded px-4 py-3 text-gray-900 dark:text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors" 
+                                            placeholder="homero@ejemplo.com"
+                                            className="w-full bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded px-4 py-3 text-gray-900 dark:text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
                                             required
                                         />
                                     </div>
                                 </div>
-                                <div>
-                                    <label className="block text-xs font-display text-gray-500 dark:text-gray-500 mb-2 uppercase tracking-wider">Subject</label>
-                                    <input 
-                                        type="text" 
-                                        name="subject"
-                                        value={formData.subject}
-                                        onChange={handleInputChange}
-                                        placeholder="Consulta de Proyecto" 
-                                        className="w-full bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded px-4 py-3 text-gray-900 dark:text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors" 
-                                    />
-                                </div>
+
                                 <div>
                                     <label className="block text-xs font-display text-gray-500 dark:text-gray-500 mb-2 uppercase tracking-wider">Message</label>
-                                    <textarea 
-                                        rows={6} 
+                                    <textarea
+                                        rows={6}
                                         name="message"
-                                        value={formData.message}
-                                        onChange={handleInputChange}
-                                        placeholder='"En tiempos de engaño universal, decir la verdad se convierte en un acto revolucionario"' 
+                                        placeholder='"En tiempos de engaño universal, decir la verdad se convierte en un acto revolucionario"'
                                         className="w-full bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded px-4 py-3 text-gray-900 dark:text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors resize-none italic"
                                         required
                                     ></textarea>
                                 </div>
+
                                 <button type="submit" className="w-full py-4 bg-transparent border border-primary text-primary hover:bg-primary hover:text-black font-display font-bold uppercase tracking-wider rounded transition-all shadow-neon-sm hover:shadow-neon flex items-center justify-center gap-2">
                                     Send Message <Send size={18} />
                                 </button>
@@ -283,7 +251,6 @@ const Home: React.FC = () => {
 
                         {/* Sidebar - spans 1 col */}
                         <div className="lg:col-span-1 space-y-6">
-                            {/* Connect With Me */}
                             <div className="holographic-card p-6 rounded-xl border-gray-200 dark:border-white/10 dark:!bg-[#11212D]">
                                 <h4 className="font-display font-bold text-gray-900 dark:text-white mb-6 transition-colors">Connect With Me</h4>
                                 <div className="flex gap-4">
@@ -295,8 +262,6 @@ const Home: React.FC = () => {
                                     </a>
                                 </div>
                             </div>
-
-                            {/* Availability */}
                             <div className="holographic-card p-6 rounded-xl border-gray-200 dark:border-white/10 dark:!bg-[#11212D]">
                                 <div className="flex items-center gap-3 mb-2">
                                     <span className="relative flex h-3 w-3">
@@ -312,7 +277,7 @@ const Home: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                
+
                 <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
                     <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="w-10 h-10 rounded border border-primary/30 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all animate-bounce">
                         <ChevronUp size={20} />
