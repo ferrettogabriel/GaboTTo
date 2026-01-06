@@ -361,24 +361,9 @@ const ProfessionalProfile: React.FC = () => {
         document.title = "Professional Profile | GaboTTo";
     }, []);
 
-    const [contactInfo, setContactInfo] = useState('');
-    const [messageSubject, setMessageSubject] = useState('');
-    const [messageBody, setMessageBody] = useState('');
-    const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
+        const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
 
-    const handleRequestCV = (e: React.FormEvent) => {
-        e.preventDefault();
-        const subject = encodeURIComponent("Solicitud de CV Completo - Portfolio Web");
-        const body = encodeURIComponent(`Hola Gabriel,\n\nHe visto tu perfil web y estoy interesado en ver tu CV completo.\n\nMis datos de contacto (Email/WhatsApp) son: ${contactInfo}\n\nSaludos.`);
-        window.location.href = `mailto:ferrettogabriel@live.com?subject=${subject}&body=${body}`;
-    };
 
-    const handleSendMessage = (e: React.FormEvent) => {
-        e.preventDefault();
-        const subject = encodeURIComponent(messageSubject || "Consulta desde Portfolio Web");
-        const body = encodeURIComponent(messageBody);
-        window.location.href = `mailto:ferrettogabriel@live.com?subject=${subject}&body=${body}`;
-    };
 
     return (
         <div className="pt-12 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -520,16 +505,19 @@ const ProfessionalProfile: React.FC = () => {
                         <p className="text-gray-600 dark:text-gray-300 text-sm mb-6">
                             Déjame tu medio de contacto (Email o WhatsApp) y te enviaré mi CV actualizado a la brevedad.
                         </p>
-                        <form onSubmit={handleRequestCV} className="space-y-4">
+                                                <form action="https://api.web3forms.com/submit" method="POST" className="space-y-4">
+                            <input type="hidden" name="access_key" value="cd180ec9-8553-40cd-803b-22fc62c698ec" />
+                            <input type="hidden" name="subject" value="Solicitud de CV Completo - GaboTTo Portfolio" />
+                            <input type="checkbox" name="botcheck" className="hidden" style={{display: "none"}} />
+
                             <div>
                                 <label className="block text-xs font-display text-gray-500 dark:text-gray-500 mb-2 uppercase tracking-wider">Tu Email o WhatsApp</label>
-                                <input 
-                                    type="text" 
+                                <input
+                                    type="text"
+                                    name="contact"
                                     required
-                                    value={contactInfo}
-                                    onChange={(e) => setContactInfo(e.target.value)}
-                                    placeholder="ej: +54 9 11... o correo@empresa.com" 
-                                    className="w-full bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded px-4 py-3 text-gray-900 dark:text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors text-sm" 
+                                    placeholder="ej: +54 9 11... o correo@empresa.com"
+                                    className="w-full bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded px-4 py-3 text-gray-900 dark:text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors text-sm"
                                 />
                             </div>
                             <button type="submit" className="w-full py-3 bg-primary/10 border border-primary text-primary hover:bg-primary hover:text-black font-display font-bold uppercase tracking-wider rounded transition-all flex items-center justify-center gap-2 text-sm">
@@ -549,24 +537,27 @@ const ProfessionalProfile: React.FC = () => {
                                 <p className="text-xs text-gray-500 dark:text-gray-400">Envíame un correo directamente</p>
                             </div>
                         </div>
-                        <form onSubmit={handleSendMessage} className="space-y-4">
+                                                <form action="https://api.web3forms.com/submit" method="POST" className="space-y-4">
+                            <input type="hidden" name="access_key" value="cd180ec9-8553-40cd-803b-22fc62c698ec" />
+                            <input type="hidden" name="subject" value="Mensaje directo desde Professional Profile - GaboTTo" />
+                            <input type="checkbox" name="botcheck" className="hidden" style={{display: "none"}} />
+
                             <div>
                                 <label className="block text-xs font-display text-gray-500 dark:text-gray-500 mb-2 uppercase tracking-wider">Asunto</label>
-                                <input 
-                                    type="text" 
-                                    value={messageSubject}
-                                    onChange={(e) => setMessageSubject(e.target.value)}
-                                    placeholder="Consulta laboral / Proyecto" 
-                                    className="w-full bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded px-4 py-3 text-gray-900 dark:text-white focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary transition-colors text-sm" 
+                                <input
+                                    type="text"
+                                    name="subject_custom"
+                                    placeholder="Consulta laboral / Proyecto"
+                                    className="w-full bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded px-4 py-3 text-gray-900 dark:text-white focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary transition-colors text-sm"
                                 />
                             </div>
                             <div>
                                 <label className="block text-xs font-display text-gray-500 dark:text-gray-500 mb-2 uppercase tracking-wider">Mensaje</label>
-                                <textarea 
-                                    rows={3} 
-                                    value={messageBody}
-                                    onChange={(e) => setMessageBody(e.target.value)}
-                                    placeholder="Escribe tu mensaje aquí..." 
+                                <textarea
+                                    rows={3}
+                                    name="message"
+                                    required
+                                    placeholder="Escribe tu mensaje aquí..."
                                     className="w-full bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded px-4 py-3 text-gray-900 dark:text-white focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary transition-colors resize-none text-sm"
                                 ></textarea>
                             </div>
