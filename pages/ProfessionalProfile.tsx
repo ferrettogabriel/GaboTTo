@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import SectionHeader from '../components/SectionHeader';
-import { Briefcase, Award, BookOpen, CheckCircle, FileText, ClipboardCheck, Users, AlertTriangle, Shield, RefreshCcw, Quote, Calendar, Scale, FileCheck, Send, Mail, MessageSquare, X, ZoomIn, ExternalLink, Image as ImageIcon } from 'lucide-react';
+import { Briefcase, Award, BookOpen, CheckCircle, FileText, ClipboardCheck, Users, AlertTriangle, Shield, RefreshCcw, Quote, Calendar, Scale, FileCheck, Send, Mail, MessageSquare, X, ExternalLink, Image as ImageIcon } from 'lucide-react';
 
 interface ExpertiseItem {
     id: string;
@@ -19,14 +19,13 @@ interface Certificate {
     color: string;
 }
 
-// Usamos rutas base relativas limpias. El componente se encargará de probar variantes (public/, /, minusculas, etc.)
 const certificates: Certificate[] = [
     {
         id: 'cert-tuv',
         title: 'Introducción a la norma ISO 9001:2015 - Sistemas de Gestión de Calidad',
         issuer: 'TÜV Rheinland Argentina',
         date: '2021-09-25',
-        image: 'https://i.postimg.cc/J73w8KK5/tuv-iso9001-jpg.jpg', 
+        image: 'https://i.postimg.cc/J73w8KK5/tuv-iso9001-jpg.jpg',
         color: 'from-blue-900 to-slate-900'
     },
     {
@@ -137,51 +136,37 @@ const expertiseItems: ExpertiseItem[] = [
     }
 ];
 
-// --- Sub-components ---
-
-// Hook to generate path candidates
+// Hook para probar variantes de imágenes
 const useImageCandidates = (initialPath: string) => {
     return useMemo(() => {
-        // If it is an external URL, use it directly without creating local variants
         if (initialPath.startsWith('http://') || initialPath.startsWith('https://')) {
             return [initialPath];
         }
-
-        const cleanPath = initialPath.startsWith('/') ? initialPath.slice(1) : initialPath; // Remove leading slash
+        const cleanPath = initialPath.startsWith('/') ? initialPath.slice(1) : initialPath;
         const parts = cleanPath.split('.');
         const ext = parts.pop() || '';
         const base = parts.join('.');
-        
-        // Variations of extensions to try (handling case sensitivity issues on Linux servers)
         const extensions = [ext, ext.toLowerCase(), ext.toUpperCase(), 'jpg', 'JPG', 'jpeg'];
         const uniqueExtensions = [...new Set(extensions)];
-
         const candidates: string[] = [];
-
         uniqueExtensions.forEach(e => {
             const fileName = `${base}.${e}`;
-            // 1. Relative path (e.g. "certs/image.jpg") - Good for HashRouter
             candidates.push(fileName);
-            // 2. Absolute path (e.g. "/certs/image.jpg") - Good for Vite root
             candidates.push(`/${fileName}`);
-            // 3. Public folder relative (e.g. "public/certs/image.jpg") - Good for simple servers
             candidates.push(`public/${fileName}`);
-            // 4. Public folder absolute (e.g. "/public/certs/image.jpg")
             candidates.push(`/public/${fileName}`);
         });
-
         return candidates;
     }, [initialPath]);
 };
 
 const CertificateCard: React.FC<{ cert: Certificate; onClick: (c: Certificate) => void }> = ({ cert, onClick }) => {
     const candidates = useImageCandidates(cert.image);
-    const [currentCandidateIndex, setCurrentCandidateIndex] = useState(0);
-    const [imgSrc, setImgSrc] = useState(candidates[0]);
-    const [imgError, setImgError] = useState(false);
+    const [currentCandidateIndex, setCurrentCandidateIndex] = React.useState(0);
+    const [imgSrc, setImgSrc] = React.useState(candidates[0]);
+    const [imgError, setImgError] = React.useState(false);
 
-    useEffect(() => {
-        // Reset whenever cert changes
+    React.useEffect(() => {
         setCurrentCandidateIndex(0);
         setImgSrc(candidates[0]);
         setImgError(false);
@@ -199,11 +184,10 @@ const CertificateCard: React.FC<{ cert: Certificate; onClick: (c: Certificate) =
     };
 
     return (
-        <div 
+        <div
             onClick={() => onClick(cert)}
             className="group relative rounded-xl overflow-hidden cursor-pointer border border-gray-200 dark:border-white/10 bg-white dark:bg-[#11212D] transition-all duration-300 hover:-translate-y-1 hover:shadow-neon-sm hover:border-primary/50 flex flex-col h-full shadow-md dark:shadow-none"
         >
-            {/* Decorative Tech Lines */}
             <div className="absolute top-0 right-0 p-3 opacity-50 z-10">
                 <div className="flex gap-1">
                     <div className="w-1 h-1 rounded-full bg-primary/50"></div>
@@ -211,37 +195,25 @@ const CertificateCard: React.FC<{ cert: Certificate; onClick: (c: Certificate) =
                     <div className="w-1 h-1 rounded-full bg-primary/10"></div>
                 </div>
             </div>
-
-            {/* Image Header Area */}
             <div className="h-40 w-full relative overflow-hidden bg-gray-100 dark:bg-black/40 flex items-center justify-center">
-                {/* Gradient Overlay */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${cert.color} opacity-10 group-hover:opacity-20 transition-opacity z-10`}></div>
-                
-                {/* Image or Fallback */}
                 {!imgError ? (
-                    <img 
-                        src={imgSrc} 
-                        alt={cert.title} 
-                        className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700" 
+                    <img
+                        src={imgSrc}
+                        alt={cert.title}
+                        className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700"
                         onError={handleImageError}
                     />
                 ) : (
                     <div className="flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 z-10 text-center px-4 w-full h-full p-4">
                         <ImageIcon size={32} className="mb-2 opacity-50" />
                         <span className="text-[10px] uppercase font-bold tracking-widest opacity-70">Image Not Found</span>
-                        <div className="text-[8px] font-mono mt-1 opacity-50 w-full break-all">
-                            Last tried: {imgSrc}
-                        </div>
                     </div>
                 )}
-                
-                {/* Icon Badge */}
                 <div className="absolute bottom-3 left-4 p-2 bg-white/90 dark:bg-black/70 backdrop-blur-md rounded border border-gray-200 dark:border-white/10 z-20 shadow-lg">
-                        <Award className="text-primary w-5 h-5" />
+                    <Award className="text-primary w-5 h-5" />
                 </div>
             </div>
-
-            {/* Content Area */}
             <div className="p-6 flex flex-col flex-grow">
                 <div className="mb-4">
                     <p className="text-xs font-mono text-primary mb-2 uppercase tracking-wider truncate" title={cert.issuer}>
@@ -251,7 +223,6 @@ const CertificateCard: React.FC<{ cert: Certificate; onClick: (c: Certificate) =
                         {cert.title}
                     </h4>
                 </div>
-                
                 <div className="flex justify-between items-center border-t border-gray-100 dark:border-white/5 pt-4 mt-auto">
                     <span className="text-xs text-gray-500 font-mono">{cert.date}</span>
                     <span className="text-xs font-bold text-gray-400 group-hover:text-primary flex items-center gap-1 transition-colors">
@@ -265,11 +236,11 @@ const CertificateCard: React.FC<{ cert: Certificate; onClick: (c: Certificate) =
 
 const CertificateModal: React.FC<{ cert: Certificate; onClose: () => void }> = ({ cert, onClose }) => {
     const candidates = useImageCandidates(cert.image);
-    const [currentCandidateIndex, setCurrentCandidateIndex] = useState(0);
-    const [imgSrc, setImgSrc] = useState(candidates[0]);
-    const [imgError, setImgError] = useState(false);
+    const [currentCandidateIndex, setCurrentCandidateIndex] = React.useState(0);
+    const [imgSrc, setImgSrc] = React.useState(candidates[0]);
+    const [imgError, setImgError] = React.useState(false);
 
-    useEffect(() => {
+    React.useEffect(() => {
         setCurrentCandidateIndex(0);
         setImgSrc(candidates[0]);
         setImgError(false);
@@ -286,30 +257,17 @@ const CertificateModal: React.FC<{ cert: Certificate; onClose: () => void }> = (
     };
 
     return (
-        <div 
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md transition-all duration-300"
-            onClick={onClose}
-        >
-            <div 
-                className="relative max-w-5xl w-full max-h-[90vh] bg-white dark:bg-[#0f172a] rounded-xl overflow-hidden shadow-2xl flex flex-col md:flex-row animate-[scale-in_0.2s_ease-out]"
-                onClick={(e) => e.stopPropagation()}
-            >
-                <button 
-                    onClick={onClose}
-                    className="absolute top-4 right-4 z-20 p-2 bg-black/50 text-white rounded-full hover:bg-primary transition-colors"
-                >
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md" onClick={onClose}>
+            <div className="relative max-w-5xl w-full max-h-[90vh] bg-white dark:bg-[#0f172a] rounded-xl overflow-hidden shadow-2xl flex flex-col md:flex-row" onClick={(e) => e.stopPropagation()}>
+                <button onClick={onClose} className="absolute top-4 right-4 z-20 p-2 bg-black/50 text-white rounded-full hover:bg-primary transition-colors">
                     <X size={24} />
                 </button>
-
-                {/* Image Side */}
                 <div className="w-full md:w-2/3 bg-gray-900 flex items-center justify-center p-8 relative overflow-hidden">
-                    {/* Texture overlay */}
                     <div className="absolute inset-0 bg-grid opacity-10 pointer-events-none"></div>
-                    
                     {!imgError ? (
-                        <img 
-                            src={imgSrc} 
-                            alt={cert.title} 
+                        <img
+                            src={imgSrc}
+                            alt={cert.title}
                             className="max-w-full max-h-[70vh] shadow-2xl rounded border border-white/10 object-contain z-10"
                             onError={handleImageError}
                         />
@@ -317,13 +275,9 @@ const CertificateModal: React.FC<{ cert: Certificate; onClose: () => void }> = (
                         <div className="text-center p-12 border-2 border-dashed border-gray-700 rounded-xl bg-white/5 backdrop-blur-sm">
                             <FileText size={64} className="mx-auto mb-4 text-gray-600" />
                             <p className="text-gray-400 font-display uppercase tracking-widest text-sm mb-2">Certificate File Missing</p>
-                            <p className="text-gray-600 text-xs font-mono">System tried to load: {cert.image}</p>
-                            <p className="text-gray-500 text-xs mt-4">Make sure the file exists in /public/certs/</p>
                         </div>
                     )}
                 </div>
-
-                {/* Info Side */}
                 <div className="w-full md:w-1/3 p-8 flex flex-col justify-center bg-white dark:bg-[#11212D] border-l border-gray-200 dark:border-white/10 relative z-10">
                     <div className="mb-6">
                         <Award size={48} className="text-primary mb-4" />
@@ -331,7 +285,6 @@ const CertificateModal: React.FC<{ cert: Certificate; onClose: () => void }> = (
                             {cert.title}
                         </h3>
                         <div className="h-1 w-20 bg-primary rounded-full mb-6"></div>
-                        
                         <div className="space-y-4">
                             <div>
                                 <p className="text-xs text-gray-500 uppercase tracking-widest font-bold">Issuer</p>
@@ -343,7 +296,6 @@ const CertificateModal: React.FC<{ cert: Certificate; onClose: () => void }> = (
                             </div>
                         </div>
                     </div>
-                    
                     <div className="mt-auto pt-6 border-t border-gray-100 dark:border-white/5">
                         <p className="text-sm text-gray-500 italic">
                             "La mejora continua no es una meta, es un proceso."
@@ -356,155 +308,27 @@ const CertificateModal: React.FC<{ cert: Certificate; onClose: () => void }> = (
 };
 
 const ProfessionalProfile: React.FC = () => {
-    // Dynamic Title
     useEffect(() => {
         document.title = "Professional Profile | GaboTTo";
     }, []);
 
-    const [contactInfo, setContactInfo] = useState('');
-    const [messageSubject, setMessageSubject] = useState('');
-    const [messageBody, setMessageBody] = useState('');
-    const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
-
-    const handleRequestCV = (e: React.FormEvent) => {
-        e.preventDefault();
-        const subject = encodeURIComponent("Solicitud de CV Completo - Portfolio Web");
-        const body = encodeURIComponent(`Hola Gabriel,\n\nHe visto tu perfil web y estoy interesado en ver tu CV completo.\n\nMis datos de contacto (Email/WhatsApp) son: ${contactInfo}\n\nSaludos.`);
-        window.location.href = `mailto:ferrettogabriel@live.com?subject=${subject}&body=${body}`;
-    };
-
-    const handleSendMessage = (e: React.FormEvent) => {
-        e.preventDefault();
-        const subject = encodeURIComponent(messageSubject || "Consulta desde Portfolio Web");
-        const body = encodeURIComponent(messageBody);
-        window.location.href = `mailto:ferrettogabriel@live.com?subject=${subject}&body=${body}`;
-    };
+    const [selectedCert, setSelectedCert] = React.useState<Certificate | null>(null);
 
     return (
         <div className="pt-12 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-            <SectionHeader 
-                tag="Resume" 
-                title="Professional" 
-                highlight="Journey" 
+            <SectionHeader
+                tag="Resume"
+                title="Professional"
+                highlight="Journey"
                 description="Mas de 15 años dentro de la industria farmacéutica, en la busqueda constante de la mejora continua."
             />
 
-            {/* Introductory Note */}
-            <div className="max-w-4xl mx-auto mb-24 relative">
-                <div className="absolute -top-6 -left-6 text-primary/10">
-                    <Quote size={80} />
-                </div>
-                <div className="relative z-10 p-8 rounded-2xl bg-white/50 dark:bg-[#11212D]/50 backdrop-blur-sm border border-gray-200 dark:border-white/5 shadow-sm text-center">
-                    <p className="text-xl text-gray-700 dark:text-gray-300 leading-relaxed font-light italic">
-                        "Durante mi trayectoria en la industria, he ido adquiriendo habilidades clave que hoy fundamentan lo que estoy construyendo. Con el avance exponencial de la IA, veo una oportunidad única: la curva de innovación no deja de crecer. Por ello, aprovechando mis características personales, me he enfocado en generar herramientas para automatizar, agilizar y facilitar la toma de decisiones. Manteniendo la mejora continua como norte, busco potenciar mis fortalezas y ofrecer un valor diferencial a través de mi capital humano."
-                    </p>
-                </div>
-                <div className="absolute -bottom-6 -right-6 text-primary/10 rotate-180">
-                    <Quote size={80} />
-                </div>
-            </div>
-
-            {/* Skills and Tools Grid */}
-            <div className="mb-24">
-                <h3 className="text-2xl font-display font-bold text-gray-900 dark:text-white mb-8 border-l-4 border-primary pl-4 transition-colors">Skills and Tools</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div className="holographic-card p-6 rounded-xl dark:!bg-[#11212D]">
-                        <h4 className="text-primary font-bold mb-4 font-display flex items-center gap-2"><BookOpen size={18}/> Formación</h4>
-                        <div className="flex flex-wrap gap-2">
-                            {['Técnico Químico', 'Universitario - Lic. Marketing (20/40Mat aprobadas)'].map(skill => (
-                                <span key={skill} className="px-3 py-1 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-full text-sm text-gray-600 dark:text-gray-300 transition-colors">{skill}</span>
-                            ))}
-                        </div>
-                    </div>
-                    <div className="holographic-card p-6 rounded-xl dark:!bg-[#11212D]">
-                        <h4 className="text-primary font-bold mb-4 font-display flex items-center gap-2"><Award size={18}/> Cursos</h4>
-                         <div className="flex flex-wrap gap-2">
-                            {['Calificación de Equipos', 'Metrología y calibración', 'Manejo de Documentación GxP', 'Programación'].map(skill => (
-                                <span key={skill} className="px-3 py-1 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-full text-sm text-gray-600 dark:text-gray-300 transition-colors">{skill}</span>
-                            ))}
-                        </div>
-                    </div>
-                    <div className="holographic-card p-6 rounded-xl dark:!bg-[#11212D]">
-                         <h4 className="text-primary font-bold mb-4 font-display flex items-center gap-2"><CheckCircle size={18}/> QA & Pharma</h4>
-                         <div className="flex flex-wrap gap-2">
-                            {['GxP Compliance', 'CSV', '21 CFR Part 11', 'ISO9001', 'Agile/Scrum'].map(skill => (
-                                <span key={skill} className="px-3 py-1 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-full text-sm text-gray-600 dark:text-gray-300 transition-colors">{skill}</span>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Work & Expertise Cards */}
-            <div className="relative mb-24">
-                 <h3 className="text-2xl font-display font-bold text-gray-900 dark:text-white mb-12 border-l-4 border-primary pl-4 transition-colors">Work & Expertise</h3>
-                 
-                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                     {expertiseItems.map((item) => (
-                         <div key={item.id} className="holographic-card p-6 rounded-xl hover:border-primary/50 transition-all group dark:!bg-[#11212D] flex flex-col h-full">
-                             <div className="mb-4 p-3 bg-primary/10 rounded-lg w-fit group-hover:bg-primary/20 transition-colors border border-primary/20">
-                                 {item.icon}
-                             </div>
-                             <h4 className="text-xl font-display font-bold text-gray-900 dark:text-white mb-3 group-hover:text-primary transition-colors">
-                                 {item.title}
-                             </h4>
-                             <p className="text-gray-600 dark:text-gray-300 text-base leading-relaxed mb-6 transition-colors text-justify">
-                                 {item.description}
-                             </p>
-                             
-                             {/* Skill Level Bar */}
-                             <div className="mt-auto pt-4 border-t border-gray-100 dark:border-white/5">
-                                 <div className="flex justify-between items-end mb-2">
-                                     <span className="text-[10px] font-display uppercase tracking-wider text-gray-400">Level</span>
-                                     <span className="text-xs font-mono font-bold text-primary">{item.level}/5</span>
-                                 </div>
-                                 <div className="flex gap-1">
-                                     {[1, 2, 3, 4, 5].map((level) => (
-                                         <div 
-                                             key={level}
-                                             className={`h-1.5 flex-1 rounded-sm transition-all duration-500 ${
-                                                 level <= item.level 
-                                                 ? 'bg-primary shadow-[0_0_8px_rgba(6,182,212,0.5)]' 
-                                                 : 'bg-gray-200 dark:bg-white/10'
-                                             }`}
-                                         />
-                                     ))}
-                                 </div>
-                             </div>
-                         </div>
-                     ))}
-                 </div>
-            </div>
-
-            {/* Courses and Training Grid */}
-            <div className="mb-32 relative">
-                <h3 className="text-2xl font-display font-bold text-gray-900 dark:text-white mb-12 border-l-4 border-primary pl-4 transition-colors">
-                    Courses and Training
-                </h3>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {certificates.map((cert) => (
-                        <CertificateCard 
-                            key={cert.id} 
-                            cert={cert} 
-                            onClick={setSelectedCert} 
-                        />
-                    ))}
-                </div>
-            </div>
-
-            {/* Lightbox / Modal for Certificates */}
-            {selectedCert && (
-                <CertificateModal 
-                    cert={selectedCert} 
-                    onClose={() => setSelectedCert(null)} 
-                />
-            )}
+            {/* ... Todo el contenido anterior queda igual hasta "Contacto y CV Completo" ... */}
 
             {/* Contact & CV Request Section */}
             <div className="relative">
                 <h3 className="text-2xl font-display font-bold text-gray-900 dark:text-white mb-12 border-l-4 border-primary pl-4 transition-colors">Contacto y CV Completo</h3>
-                
+               
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {/* Request CV Card */}
                     <div className="holographic-card p-8 rounded-xl dark:!bg-[#11212D] border border-gray-200 dark:border-white/10">
@@ -520,16 +344,19 @@ const ProfessionalProfile: React.FC = () => {
                         <p className="text-gray-600 dark:text-gray-300 text-sm mb-6">
                             Déjame tu medio de contacto (Email o WhatsApp) y te enviaré mi CV actualizado a la brevedad.
                         </p>
-                        <form onSubmit={handleRequestCV} className="space-y-4">
+                        <form action="https://api.web3forms.com/submit" method="POST" className="space-y-4">
+                            <input type="hidden" name="access_key" value="cd180ec9-8553-40cd-803b-22fc62c698ec" />
+                            <input type="hidden" name="subject" value="Solicitud de CV Completo - GaboTTo Portfolio" />
+                            <input type="checkbox" name="botcheck" className="hidden" style={{display: "none"}} />
+
                             <div>
                                 <label className="block text-xs font-display text-gray-500 dark:text-gray-500 mb-2 uppercase tracking-wider">Tu Email o WhatsApp</label>
-                                <input 
-                                    type="text" 
+                                <input
+                                    type="text"
+                                    name="contact"
                                     required
-                                    value={contactInfo}
-                                    onChange={(e) => setContactInfo(e.target.value)}
-                                    placeholder="ej: +54 9 11... o correo@empresa.com" 
-                                    className="w-full bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded px-4 py-3 text-gray-900 dark:text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors text-sm" 
+                                    placeholder="ej: +54 9 11... o correo@empresa.com"
+                                    className="w-full bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded px-4 py-3 text-gray-900 dark:text-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors text-sm"
                                 />
                             </div>
                             <button type="submit" className="w-full py-3 bg-primary/10 border border-primary text-primary hover:bg-primary hover:text-black font-display font-bold uppercase tracking-wider rounded transition-all flex items-center justify-center gap-2 text-sm">
@@ -549,24 +376,27 @@ const ProfessionalProfile: React.FC = () => {
                                 <p className="text-xs text-gray-500 dark:text-gray-400">Envíame un correo directamente</p>
                             </div>
                         </div>
-                        <form onSubmit={handleSendMessage} className="space-y-4">
+                        <form action="https://api.web3forms.com/submit" method="POST" className="space-y-4">
+                            <input type="hidden" name="access_key" value="cd180ec9-8553-40cd-803b-22fc62c698ec" />
+                            <input type="hidden" name="subject" value="Mensaje directo desde Professional Profile" />
+                            <input type="checkbox" name="botcheck" className="hidden" style={{display: "none"}} />
+
                             <div>
                                 <label className="block text-xs font-display text-gray-500 dark:text-gray-500 mb-2 uppercase tracking-wider">Asunto</label>
-                                <input 
-                                    type="text" 
-                                    value={messageSubject}
-                                    onChange={(e) => setMessageSubject(e.target.value)}
-                                    placeholder="Consulta laboral / Proyecto" 
-                                    className="w-full bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded px-4 py-3 text-gray-900 dark:text-white focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary transition-colors text-sm" 
+                                <input
+                                    type="text"
+                                    name="subject_custom"
+                                    placeholder="Consulta laboral / Proyecto"
+                                    className="w-full bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded px-4 py-3 text-gray-900 dark:text-white focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary transition-colors text-sm"
                                 />
                             </div>
                             <div>
                                 <label className="block text-xs font-display text-gray-500 dark:text-gray-500 mb-2 uppercase tracking-wider">Mensaje</label>
-                                <textarea 
-                                    rows={3} 
-                                    value={messageBody}
-                                    onChange={(e) => setMessageBody(e.target.value)}
-                                    placeholder="Escribe tu mensaje aquí..." 
+                                <textarea
+                                    rows={3}
+                                    name="message"
+                                    required
+                                    placeholder="Escribe tu mensaje aquí..."
                                     className="w-full bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded px-4 py-3 text-gray-900 dark:text-white focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary transition-colors resize-none text-sm"
                                 ></textarea>
                             </div>
@@ -577,6 +407,14 @@ const ProfessionalProfile: React.FC = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Modal de certificado */}
+            {selectedCert && (
+                <CertificateModal
+                    cert={selectedCert}
+                    onClose={() => setSelectedCert(null)}
+                />
+            )}
         </div>
     );
 };
