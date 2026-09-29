@@ -6,6 +6,23 @@ import { Project } from '../types';
 
 export const projects: Project[] = [
     {
+        id: 'calisys-mc',
+        title: 'Calisys MC',
+        description: 'Gestión de activos, calibraciones y calificaciones, con planificación del mantenimiento y control de vencimientos.',
+        tags: ['Calibraciones', 'Mantenimiento', 'Gestión de activos', 'Calidad'],
+        icon: 'database',
+        image: 'https://calisysmc.vercel.app/media/calisys-promo-poster.jpg',
+        fullDescription: 'Calisys MC reúne la gestión de activos, calibraciones, calificaciones y mantenimiento preventivo en una plataforma orientada a equipos de calidad y operación. El proyecto busca facilitar el seguimiento de vencimientos, la planificación de tareas y la consulta de documentos e historial desde un mismo lugar.\n\nLa landing pública presenta el alcance del producto y permite solicitar una demo guiada. El acceso a la aplicación operativa se coordina después de la solicitud; la web enlazada no es la aplicación en sí.',
+        features: [
+            'Registro de activos, calibraciones y calificaciones',
+            'Planificación de mantenimiento preventivo y seguimiento de vencimientos',
+            'Consulta de documentos, proveedores, reportes e historial',
+            'Eventos de auditoría para apoyar la trazabilidad de las actividades'
+        ],
+        demoUrl: 'https://calisysmc.vercel.app/',
+        demoLabel: 'Ver landing'
+    },
+    {
         id: 'ai-risk-analyzer',
         title: 'Aplicación de Analisis de Riesgo - Risk AI',
         description: 'Plataforma avanzada de análisis de riesgos que utiliza LangChain y LLM locales para procesos de gestión de riesgo en la industria farmacéutica. Posee integración con RAG.',
@@ -193,13 +210,17 @@ const Portfolio: React.FC = () => {
                     <Link to={`/portfolio/${project.id}`} key={project.id} className="group relative rounded-xl overflow-hidden border border-gray-200 dark:border-white/10 bg-white dark:bg-[#11212D] hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-neon-sm flex flex-col h-full shadow-md dark:shadow-none">
                         <div className="aspect-video w-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-black flex items-center justify-center relative overflow-hidden transition-colors flex-shrink-0">
                             <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                            <div className="text-gray-600 group-hover:text-primary transition-colors duration-300">
-                                {getIcon(project.icon)}
-                            </div>
+                            {project.image ? (
+                                <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+                            ) : (
+                                <div className="text-gray-600 group-hover:text-primary transition-colors duration-300">
+                                    {getIcon(project.icon)}
+                                </div>
+                            )}
                         </div>
                         <div className="p-6 flex flex-col flex-grow">
                             <h3 className="text-xl font-display font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary transition-colors min-h-[3.5rem] line-clamp-2">{project.title}</h3>
-                            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 h-20 overflow-hidden transition-colors font-mono text-justify leading-tight">
+                            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 h-20 overflow-hidden transition-colors font-mono text-left leading-tight">
                                 {project.description}
                             </p>
                             <div className="flex flex-wrap gap-2 text-xs font-mono mt-auto">

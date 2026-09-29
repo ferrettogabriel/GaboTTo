@@ -21,6 +21,7 @@ export interface Project {
     }[];
     repoUrl?: string;
     demoUrl?: string;
+    demoLabel?: string;
 }
 
 export interface Experience {
