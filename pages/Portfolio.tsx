@@ -6,6 +6,23 @@ import { Project } from '../types';
 
 export const projects: Project[] = [
     {
+        id: 'calisys-mc',
+        title: 'Calisys MC',
+        description: 'Software para equipos, calibraciones y mantenimiento preventivo, con planificación, vencimientos y trazabilidad.',
+        tags: ['React', 'TypeScript', 'Supabase', 'Calibraciones'],
+        icon: 'database',
+        image: 'https://calisysmc.vercel.app/media/calisys-promo-poster.jpg',
+        fullDescription: 'Calisys MC es una aplicación para gestionar equipos e instrumentos en entornos de calidad. Reúne el inventario de activos, las calibraciones y calificaciones, el mantenimiento preventivo y la planificación de vencimientos. Su objetivo es facilitar el seguimiento de cada equipo y conservar el historial de las actividades realizadas.\n\nLa aplicación incorpora vistas para servicios y sistemas, proveedores, documentos, reportes y eventos de auditoría. Está desarrollada con React y TypeScript y utiliza Supabase para sus funciones en la nube.\n\nLa landing pública presenta el producto y permite solicitar una demo guiada de la aplicación operativa.',
+        features: [
+            'Inventario de equipos e instrumentos con estados y clasificación USP <1058>',
+            'Planificación de calibraciones y calificaciones con seguimiento de vencimientos',
+            'Planes y registros de mantenimiento preventivo',
+            'Gestión de proveedores, documentos, reportes y eventos de auditoría'
+        ],
+        demoUrl: 'https://calisysmc.vercel.app/',
+        demoLabel: 'Ver landing'
+    },
+    {
         id: 'ai-risk-analyzer',
         title: 'Aplicación de Analisis de Riesgo - Risk AI',
         description: 'Plataforma avanzada de análisis de riesgos que utiliza LangChain y LLM locales para procesos de gestión de riesgo en la industria farmacéutica. Posee integración con RAG.',
@@ -193,13 +210,17 @@ const Portfolio: React.FC = () => {
                     <Link to={`/portfolio/${project.id}`} key={project.id} className="group relative rounded-xl overflow-hidden border border-gray-200 dark:border-white/10 bg-white dark:bg-[#11212D] hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-neon-sm flex flex-col h-full shadow-md dark:shadow-none">
                         <div className="aspect-video w-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-black flex items-center justify-center relative overflow-hidden transition-colors flex-shrink-0">
                             <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                            <div className="text-gray-600 group-hover:text-primary transition-colors duration-300">
-                                {getIcon(project.icon)}
-                            </div>
+                            {project.image ? (
+                                <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+                            ) : (
+                                <div className="text-gray-600 group-hover:text-primary transition-colors duration-300">
+                                    {getIcon(project.icon)}
+                                </div>
+                            )}
                         </div>
                         <div className="p-6 flex flex-col flex-grow">
                             <h3 className="text-xl font-display font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary transition-colors min-h-[3.5rem] line-clamp-2">{project.title}</h3>
-                            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 h-20 overflow-hidden transition-colors font-mono text-justify leading-tight">
+                            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 h-20 overflow-hidden transition-colors font-mono text-left leading-tight">
                                 {project.description}
                             </p>
                             <div className="flex flex-wrap gap-2 text-xs font-mono mt-auto">

@@ -63,8 +63,8 @@ const ProjectDetail: React.FC = () => {
         return <div className="text-center py-20 text-gray-900 dark:text-white">Project not found</div>;
     }
 
-    // Default GitHub profile if no specific repo is provided
-    const githubLink = project.repoUrl || "https://github.com/ferrettogabriel";
+    // Projects with a public demo but no repository show only the demo link.
+    const githubLink = project.repoUrl || (project.demoUrl ? undefined : "https://github.com/ferrettogabriel");
 
     return (
         <div className="pt-12 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -243,23 +243,25 @@ const ProjectDetail: React.FC = () => {
                             <div className="bg-gray-100 dark:bg-white/5 rounded-xl p-6 border border-gray-200 dark:border-white/10 sticky top-24 transition-colors">
                                 <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-6 font-display transition-colors">Project Links</h4>
                                 <div className="space-y-4">
-                                    {/* GitHub Link - Always visible, falls back to profile if project has no repoUrl */}
-                                    <a href={githubLink} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-3 rounded-lg bg-gray-200 dark:bg-black/40 hover:bg-primary/20 border border-gray-300 dark:border-white/5 hover:border-primary/50 transition-all group">
-                                        <span className="flex items-center gap-2 text-gray-700 dark:text-gray-300 group-hover:text-primary dark:group-hover:text-white"><Github size={18} /> Source Code</span>
-                                        <ExternalLink size={16} className="text-gray-500 group-hover:text-primary"/>
-                                    </a>
+                                    {/* Show a source link only when available; existing projects retain the profile fallback. */}
+                                    {githubLink && (
+                                        <a href={githubLink} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-3 rounded-lg bg-gray-200 dark:bg-black/40 hover:bg-primary/20 border border-gray-300 dark:border-white/5 hover:border-primary/50 transition-all group">
+                                            <span className="flex items-center gap-2 text-gray-700 dark:text-gray-300 group-hover:text-primary dark:group-hover:text-white"><Github size={18} /> Source Code</span>
+                                            <ExternalLink size={16} className="text-gray-500 group-hover:text-primary"/>
+                                        </a>
+                                    )}
                                     
                                     {/* Live Demo Link - Only visible if demoUrl is present */}
                                     {project.demoUrl && (
                                         <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-3 rounded-lg bg-gray-200 dark:bg-black/40 hover:bg-primary/20 border border-gray-300 dark:border-white/5 hover:border-primary/50 transition-all group">
-                                            <span className="flex items-center gap-2 text-gray-700 dark:text-gray-300 group-hover:text-primary dark:group-hover:text-white"><ExternalLink size={18} /> Live Demo</span>
+                                            <span className="flex items-center gap-2 text-gray-700 dark:text-gray-300 group-hover:text-primary dark:group-hover:text-white"><ExternalLink size={18} /> {project.demoLabel || "Live Demo"}</span>
                                             <ExternalLink size={16} className="text-gray-500 group-hover:text-primary"/>
                                         </a>
                                     )}
                                 </div>
 
                                 <div className="mt-8">
-                                    <h4 className="text-sm font-bold text-gray-500 uppercase tracking-widest mb-4">Technologies</h4>
+                                    <h4 className="text-sm font-bold text-gray-500 uppercase tracking-widest mb-4">Tecnologías y áreas</h4>
                                     <div className="flex flex-wrap gap-2">
                                         {project.tags.map(tag => (
                                             <span key={tag} className="text-xs text-gray-600 dark:text-gray-400 bg-gray-200 dark:bg-black/40 px-2 py-1 rounded border border-gray-300 dark:border-white/5 transition-colors">{tag}</span>
