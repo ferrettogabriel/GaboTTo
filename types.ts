@@ -6,6 +6,7 @@ export interface Project {
     tags: string[];
     icon: string;
     image?: string;
+    heroImage?: string;
     fullDescription?: string;
     features?: string[];
     futureSteps?: string;
@@ -15,7 +16,10 @@ export interface Project {
         description: string;
         icon?: string;
     }[];
+    galleryLayout?: 'grid' | 'modal';
+    galleryTitle?: string;
     gallery?: {
+        title?: string;
         url: string;
         description: string;
     }[];
