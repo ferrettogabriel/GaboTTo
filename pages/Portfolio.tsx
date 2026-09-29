@@ -8,16 +8,16 @@ export const projects: Project[] = [
     {
         id: 'calisys-mc',
         title: 'Calisys MC',
-        description: 'Gestión de activos, calibraciones y calificaciones, con planificación del mantenimiento y control de vencimientos.',
-        tags: ['Calibraciones', 'Mantenimiento', 'Gestión de activos', 'Calidad'],
+        description: 'Software para equipos, calibraciones y mantenimiento preventivo, con planificación, vencimientos y trazabilidad.',
+        tags: ['React', 'TypeScript', 'Supabase', 'Calibraciones'],
         icon: 'database',
         image: 'https://calisysmc.vercel.app/media/calisys-promo-poster.jpg',
-        fullDescription: 'Calisys MC reúne la gestión de activos, calibraciones, calificaciones y mantenimiento preventivo en una plataforma orientada a equipos de calidad y operación. El proyecto busca facilitar el seguimiento de vencimientos, la planificación de tareas y la consulta de documentos e historial desde un mismo lugar.\n\nLa landing pública presenta el alcance del producto y permite solicitar una demo guiada. El acceso a la aplicación operativa se coordina después de la solicitud; la web enlazada no es la aplicación en sí.',
+        fullDescription: 'Calisys MC es una aplicación para gestionar equipos e instrumentos en entornos de calidad. Reúne el inventario de activos, las calibraciones y calificaciones, el mantenimiento preventivo y la planificación de vencimientos. Su objetivo es facilitar el seguimiento de cada equipo y conservar el historial de las actividades realizadas.\n\nLa aplicación incorpora vistas para servicios y sistemas, proveedores, documentos, reportes y eventos de auditoría. Está desarrollada con React y TypeScript y utiliza Supabase para sus funciones en la nube.\n\nLa landing pública presenta el producto y permite solicitar una demo guiada de la aplicación operativa.',
         features: [
-            'Registro de activos, calibraciones y calificaciones',
-            'Planificación de mantenimiento preventivo y seguimiento de vencimientos',
-            'Consulta de documentos, proveedores, reportes e historial',
-            'Eventos de auditoría para apoyar la trazabilidad de las actividades'
+            'Inventario de equipos e instrumentos con estados y clasificación USP <1058>',
+            'Planificación de calibraciones y calificaciones con seguimiento de vencimientos',
+            'Planes y registros de mantenimiento preventivo',
+            'Gestión de proveedores, documentos, reportes y eventos de auditoría'
         ],
         demoUrl: 'https://calisysmc.vercel.app/',
         demoLabel: 'Ver landing'
