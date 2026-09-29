@@ -12,12 +12,42 @@ export const projects: Project[] = [
         tags: ['React', 'TypeScript', 'Supabase', 'Calibraciones'],
         icon: 'database',
         image: 'https://calisysmc.vercel.app/media/calisys-promo-poster.jpg',
-        fullDescription: 'Calisys MC es una aplicación para gestionar equipos e instrumentos en entornos de calidad. Reúne el inventario de activos, las calibraciones y calificaciones, el mantenimiento preventivo y la planificación de vencimientos. Su objetivo es facilitar el seguimiento de cada equipo y conservar el historial de las actividades realizadas.\n\nLa aplicación incorpora vistas para servicios y sistemas, proveedores, documentos, reportes y eventos de auditoría. Está desarrollada con React y TypeScript y utiliza Supabase para sus funciones en la nube.\n\nLa landing pública presenta el producto y permite solicitar una demo guiada de la aplicación operativa.',
+        heroImage: '/projects/calisys-mc/logo.png',
+        fullDescription: 'Teniendo como norte la búsqueda de soluciones y automatizaciones para la industria, comencé a desarrollar Calisys MC: una aplicación para gestionar equipos e instrumentos, calibraciones, calificaciones y mantenimiento preventivo desde un mismo lugar.\n\nEl sistema ayuda a planificar tareas, anticipar vencimientos y conservar el historial de cada activo. También vincula equipos con servicios y sistemas, reúne documentación y ofrece reportes y Audit trail para seguir las actividades realizadas.\n\nLa landing pública presenta el producto y permite solicitar una demo guiada de la aplicación operativa.',
         features: [
             'Inventario de equipos e instrumentos con estados y clasificación USP <1058>',
             'Planificación de calibraciones y calificaciones con seguimiento de vencimientos',
             'Planes y registros de mantenimiento preventivo',
-            'Gestión de proveedores, documentos, reportes y eventos de auditoría'
+            'Gestión de proveedores, documentos, reportes y Audit trail'
+        ],
+        galleryLayout: 'grid',
+        galleryTitle: 'Capturas de Calisys MC',
+        gallery: [
+            {
+                title: 'Dashboard y vencimientos',
+                url: '/projects/calisys-mc/dashboard.png',
+                description: 'Vista general de equipos, instrumentos y servicios, con alertas de calibraciones vencidas o próximas a vencer y clasificación USP <1058>.'
+            },
+            {
+                title: 'Ficha de equipos e instrumentos',
+                url: '/projects/calisys-mc/equipment.png',
+                description: 'Cada ficha reúne responsables, plan preventivo, documentos asociados y bitácora de intervenciones.'
+            },
+            {
+                title: 'Servicios y sistemas',
+                url: '/projects/calisys-mc/services.png',
+                description: 'Registro de servicios de planta, como agua y HVAC, con su estado, responsable y equipos vinculados.'
+            },
+            {
+                title: 'Calibraciones y calificaciones',
+                url: '/projects/calisys-mc/calibrations.png',
+                description: 'Consulta de datos técnicos, certificados y documentos; desde la ficha se registran calibraciones y calificaciones.'
+            },
+            {
+                title: 'Mantenimiento preventivo',
+                url: '/projects/calisys-mc/maintenance.png',
+                description: 'Planificación por equipo con estados de vencimiento, historial, cronograma anual y asignaciones.'
+            }
         ],
         demoUrl: 'https://calisysmc.vercel.app/',
         demoLabel: 'Ver landing'

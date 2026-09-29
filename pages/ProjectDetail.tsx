@@ -74,17 +74,33 @@ const ProjectDetail: React.FC = () => {
 
             <div className="holographic-card rounded-2xl overflow-hidden border-primary/20 dark:!bg-[#11212D]">
                 {/* Header / Hero */}
-                <div className="h-64 md:h-96 bg-gradient-to-br from-gray-200 via-gray-100 to-gray-200 dark:from-gray-900 dark:via-black dark:to-gray-900 relative flex items-center justify-center transition-colors">
-                    <div className="absolute inset-0 bg-grid opacity-20"></div>
-                    <div className="relative z-10 text-center px-4">
-                        <h1 className="text-4xl md:text-6xl font-display font-bold text-gray-900 dark:text-white mb-4 dark:text-glow transition-colors">{project.title}</h1>
-                         <div className="flex justify-center gap-2 flex-wrap">
-                             {project.tags.map(tag => (
+                {project.heroImage ? (
+                    <div className="h-64 md:h-96 bg-[#1a1a1a] flex flex-col items-center justify-center gap-4 px-6 py-6">
+                        <h1 className="sr-only">{project.title}</h1>
+                        <img
+                            src={project.heroImage}
+                            alt={`Logo de ${project.title}`}
+                            className="w-full max-w-4xl max-h-56 md:max-h-64 object-contain"
+                        />
+                        <div className="flex justify-center gap-2 flex-wrap">
+                            {project.tags.map(tag => (
                                 <span key={tag} className="px-3 py-1 bg-primary/20 text-primary border border-primary/40 rounded-full font-mono text-sm">{tag}</span>
-                             ))}
-                         </div>
+                            ))}
+                        </div>
                     </div>
-                </div>
+                ) : (
+                    <div className="h-64 md:h-96 bg-gradient-to-br from-gray-200 via-gray-100 to-gray-200 dark:from-gray-900 dark:via-black dark:to-gray-900 relative flex items-center justify-center transition-colors">
+                        <div className="absolute inset-0 bg-grid opacity-20"></div>
+                        <div className="relative z-10 text-center px-4">
+                            <h1 className="text-4xl md:text-6xl font-display font-bold text-gray-900 dark:text-white mb-4 dark:text-glow transition-colors">{project.title}</h1>
+                            <div className="flex justify-center gap-2 flex-wrap">
+                                {project.tags.map(tag => (
+                                    <span key={tag} className="px-3 py-1 bg-primary/20 text-primary border border-primary/40 rounded-full font-mono text-sm">{tag}</span>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 <div className="p-8 md:p-12">
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -92,7 +108,7 @@ const ProjectDetail: React.FC = () => {
                             {/* Overview Section */}
                             <div>
                                 <h3 className="text-2xl font-display font-bold text-gray-900 dark:text-white mb-4 transition-colors">Resumen del Proyecto</h3>
-                                <div className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg transition-colors text-justify">
+                                <div className={`text-gray-600 dark:text-gray-300 leading-relaxed text-lg transition-colors ${project.heroImage ? "text-left" : "text-justify"}`}>
                                     {project.fullDescription ? (
                                         project.fullDescription.split('\n').map((paragraph, index) => (
                                             paragraph.trim() && <p key={index} className="mb-4 last:mb-0">{paragraph.trim()}</p>
@@ -167,14 +183,13 @@ const ProjectDetail: React.FC = () => {
                                 </div>
                             )}
 
-                             {/* Gallery / Walkthrough Section - Compact Hero Card */}
-                             {project.gallery && project.gallery.length > 0 && (
+                             {/* Existing walkthrough gallery */}
+                             {project.galleryLayout !== 'grid' && project.gallery && project.gallery.length > 0 && (
                                 <div className="mt-12 pt-12 border-t border-gray-200 dark:border-white/10">
                                     <h3 className="text-2xl font-display font-bold text-gray-900 dark:text-white mb-8 transition-colors">
-                                        Walkthrough del Sistema
+                                        {project.galleryTitle || "Walkthrough del Sistema"}
                                     </h3>
                                     
-                                    {/* Compact Access Card */}
                                     <div 
                                         onClick={() => openGallery(0)}
                                         className="group relative rounded-xl overflow-hidden bg-gray-900 border border-gray-200 dark:border-white/10 cursor-pointer shadow-lg hover:shadow-neon-sm transition-all duration-300"
@@ -271,6 +286,37 @@ const ProjectDetail: React.FC = () => {
                             </div>
                         </div>
                     </div>
+                    {project.galleryLayout === 'grid' && project.gallery && project.gallery.length > 0 && (
+                        <section className="mt-12 pt-12 border-t border-gray-200 dark:border-white/10">
+                            <h3 className="text-2xl font-display font-bold text-gray-900 dark:text-white mb-8 transition-colors">
+                                {project.galleryTitle || "Capturas del proyecto"}
+                            </h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                                {project.gallery.map((item, index) => (
+                                    <button
+                                        key={item.url}
+                                        type="button"
+                                        onClick={() => openGallery(index)}
+                                        className="group overflow-hidden rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-[#11212D] text-left shadow-md hover:border-primary/50 hover:shadow-neon-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                                    >
+                                        <img
+                                            src={item.url}
+                                            alt={item.title || `Captura ${index + 1} de ${project.title}`}
+                                            loading="lazy"
+                                            className="aspect-video w-full object-contain bg-gray-100 dark:bg-black"
+                                        />
+                                        <div className="p-5">
+                                            <div className="flex items-center justify-between gap-3 mb-2">
+                                                <h4 className="font-display font-bold text-lg text-gray-900 dark:text-white">{item.title || `Captura ${index + 1}`}</h4>
+                                                <ZoomIn size={18} className="shrink-0 text-primary" aria-hidden="true" />
+                                            </div>
+                                            <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-300">{item.description}</p>
+                                        </div>
+                                    </button>
+                                ))}
+                            </div>
+                        </section>
+                    )}
                 </div>
             </div>
 
@@ -299,7 +345,7 @@ const ProjectDetail: React.FC = () => {
                             <img 
                                 key={currentImageIndex} // Key forces re-render for animation
                                 src={project.gallery[currentImageIndex].url} 
-                                alt={`Step ${currentImageIndex + 1}`} 
+                                alt={project.gallery[currentImageIndex].title || `Captura ${currentImageIndex + 1} de ${project.title}`}
                                 className="max-w-full max-h-full object-contain animate-[scale-in_0.3s_ease-out] z-10"
                             />
 
@@ -333,7 +379,7 @@ const ProjectDetail: React.FC = () => {
                                 </div>
 
                                 <h3 className="text-xl md:text-2xl font-display font-bold text-white mb-4 leading-tight">
-                                    Detalle del Proceso
+                                    {project.gallery[currentImageIndex].title || "Detalle del Proceso"}
                                 </h3>
                                 
                                 <div className="w-12 h-1 bg-primary rounded-full mb-6"></div>
