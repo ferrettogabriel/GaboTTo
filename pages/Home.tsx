@@ -154,7 +154,7 @@ const Home: React.FC = () => {
                                 <div className="aspect-video w-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-black flex items-center justify-center relative overflow-hidden transition-colors flex-shrink-0">
                                     <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                     {project.image ? (
-                                        <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+                                        <img src={project.image} alt={project.title} className={`w-full h-full ${project.cardImageFit === 'contain' ? 'object-contain bg-[#23294f]' : 'object-cover'}`} />
                                     ) : (
                                         <div className="text-gray-600 group-hover:text-primary transition-colors duration-300">
                                             {getIcon(project.icon)}

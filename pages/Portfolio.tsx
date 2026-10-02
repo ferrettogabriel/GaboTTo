@@ -6,6 +6,26 @@ import { Project } from '../types';
 
 export const projects: Project[] = [
     {
+        id: 'vaca-muerta-analytics',
+        title: 'Vaca Muerta Analytics',
+        description: 'Monitor de petróleo y gas que transforma datos oficiales mensuales en indicadores y comparaciones de Vaca Muerta y Argentina.',
+        tags: ['Oil & Gas', 'Análisis de datos', 'Python', 'Streamlit', 'Plotly'],
+        icon: 'database',
+        image: '/projects/vaca-muerta-analytics/logo.png',
+        cardImageFit: 'contain',
+        heroImage: '/projects/vaca-muerta-analytics/logo.png',
+        fullDescription: 'Creamos Vaca Muerta Analytics para convertir archivos oficiales de producción de petróleo y gas, extensos y difíciles de comparar, en información clara y explorable. El monitor permite seguir la evolución de Vaca Muerta y ponerla en contexto con el total argentino.\n\nLa web reúne un resumen del último mes comparable, exploración por año, operadora y cuenca, perfiles de operadores y comparaciones nacionales en barriles equivalentes de petróleo por día (BOE/d). La sección Metodología explica fuentes, unidades, cálculos y límites de cobertura para interpretar cada cifra correctamente.\n\nUn proceso automatizado descarga y valida los datos oficiales mensuales, incorpora revisiones y evita publicar conjuntos incompletos o duplicados. No presenta cifras en tiempo real: la disponibilidad depende de la publicación de las fuentes oficiales.',
+        features: [
+            'Resumen de cambios del último mes comparable, con producción y operadores líderes',
+            'Exploración histórica por año, operadora y cuenca, con indicadores y gráficos interactivos',
+            'Contexto nacional, participación de Vaca Muerta y comparación de operadores en BOE/d',
+            'Actualización automatizada con controles de cobertura, revisiones y duplicados',
+            'Metodología pública con fuentes, definiciones y advertencias de calidad'
+        ],
+        demoUrl: 'https://vaca-muerta-analytics.streamlit.app/',
+        demoLabel: 'Explorar monitor'
+    },
+    {
         id: 'calisys-mc',
         title: 'Calisys MC',
         description: 'Software para equipos, calibraciones y mantenimiento preventivo, con planificación, vencimientos y trazabilidad.',
@@ -232,7 +252,7 @@ const Portfolio: React.FC = () => {
                 tag="Working" 
                 title="Proyectos" 
                 highlight="Destacados" 
-                description="Una selección de proyectos que demuestran mi experiencia en la industria farmacéutica, integración de IA y creación de experiencias de usuario."
+                description="Proyectos de software, automatización y análisis de datos para la industria farmacéutica, energía y otros ámbitos."
             />
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -241,7 +261,7 @@ const Portfolio: React.FC = () => {
                         <div className="aspect-video w-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-black flex items-center justify-center relative overflow-hidden transition-colors flex-shrink-0">
                             <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                             {project.image ? (
-                                <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+                                <img src={project.image} alt={project.title} className={`w-full h-full ${project.cardImageFit === 'contain' ? 'object-contain bg-[#23294f]' : 'object-cover'}`} />
                             ) : (
                                 <div className="text-gray-600 group-hover:text-primary transition-colors duration-300">
                                     {getIcon(project.icon)}
