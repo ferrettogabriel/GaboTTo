@@ -111,7 +111,15 @@ const ProjectDetail: React.FC = () => {
                                 <div className={`text-gray-600 dark:text-gray-300 leading-relaxed text-lg transition-colors ${project.heroImage ? "text-left" : "text-justify"}`}>
                                     {project.fullDescription ? (
                                         project.fullDescription.split('\n').map((paragraph, index) => (
-                                            paragraph.trim() && <p key={index} className="mb-4 last:mb-0">{paragraph.trim()}</p>
+                                            paragraph.trim() && (
+                                                <p key={index} className="mb-4 last:mb-0">
+                                                    {paragraph.trim().split(/(\*\*[^*]+\*\*)/g).map((part, partIndex) =>
+                                                        part.startsWith('**') && part.endsWith('**')
+                                                            ? <strong key={partIndex} className="font-semibold text-gray-900 dark:text-white">{part.slice(2, -2)}</strong>
+                                                            : part
+                                                    )}
+                                                </p>
+                                            )
                                         ))
                                     ) : (
                                         <p>
