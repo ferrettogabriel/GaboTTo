@@ -6,10 +6,10 @@ import { blogPosts } from '../pages/PersonalSide';
 const siteUrl = 'https://www.gabotto.com';
 
 const descriptions: Record<string, string> = {
-    '/': 'Portfolio de Gabriel Ferretto: proyectos de software, automatización e inteligencia artificial para calidad e industria farmacéutica.',
+    '/': 'Portfolio de Gabriel Ferretto: software, automatización y análisis de datos para calidad, industria farmacéutica y energía.',
     '/professional-profile': 'Experiencia profesional de Gabriel Ferretto en aseguramiento de calidad, validaciones y procesos de la industria farmacéutica.',
     '/personal-side': 'Intereses, proyectos personales y reflexiones de Gabriel Ferretto sobre tecnología, creatividad y vida cotidiana.',
-    '/portfolio': 'Proyectos de Gabriel Ferretto en software, inteligencia artificial y soluciones para la industria farmacéutica.'
+    '/portfolio': 'Proyectos de Gabriel Ferretto en software, inteligencia artificial y análisis de datos para la industria farmacéutica y energía.'
 };
 
 const RouteMetadata = () => {

@@ -6,6 +6,7 @@ export interface Project {
     tags: string[];
     icon: string;
     image?: string;
+    cardImageFit?: 'cover' | 'contain';
     heroImage?: string;
     fullDescription?: string;
     features?: string[];
