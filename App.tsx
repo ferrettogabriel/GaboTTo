@@ -1,8 +1,9 @@
 import React from 'react';
 import { Analytics } from '@vercel/analytics/react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import ScrollToTop from './components/ScrollToTop';
+import RouteMetadata from './components/RouteMetadata';
 import Home from './pages/Home';
 import ProfessionalProfile from './pages/ProfessionalProfile';
 import PersonalSide from './pages/PersonalSide';
@@ -13,8 +14,9 @@ import BlogPostDetail from './pages/BlogPostDetail';
 const App: React.FC = () => {
     return (
         <>
-            <HashRouter>
+            <BrowserRouter>
                 <ScrollToTop />
+                <RouteMetadata />
                 <Layout>
                     <Routes>
                         <Route path="/" element={<Home />} />
@@ -25,7 +27,7 @@ const App: React.FC = () => {
                         <Route path="/portfolio/:id" element={<ProjectDetail />} />
                     </Routes>
                 </Layout>
-            </HashRouter>
+            </BrowserRouter>
             <Analytics />
         </>
     );

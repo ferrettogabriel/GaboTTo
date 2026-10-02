@@ -9,7 +9,7 @@ export const projects: Project[] = [
         id: 'calisys-mc',
         title: 'Calisys MC',
         description: 'Software para equipos, calibraciones y mantenimiento preventivo, con planificación, vencimientos y trazabilidad.',
-        tags: ['React', 'TypeScript', 'Supabase', 'Calibraciones'],
+        tags: ['Industria farmacéutica', 'Calibraciones', 'React', 'TypeScript', 'Supabase'],
         icon: 'database',
         image: 'https://calisysmc.vercel.app/media/calisys-promo-poster.jpg',
         heroImage: '/projects/calisys-mc/logo.png',
